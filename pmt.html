@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow Pro</title>
+
+    <link rel="stylesheet" href="pmt.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <h2>TaskFlow</h2>
+
+        <!-- <ul>
+
+            <li>📊 Dashboard</li>
+
+            <li>📁 Projects</li>
+
+            <li>📋 Kanban Board</li>
+
+            <li>📅 Calendar</li>
+
+            <li>📈 Analytics</li>
+
+            <li>👥 Team</li>
+
+            <li>⚙ Settings</li>
+
+        </ul> -->
+
+        <ul>
+
+    <li id="dashboardMenu">
+        📊 Dashboard
+    </li>
+
+    <li id="projectMenu">
+        📁 Projects
+    </li>
+
+    <li id="kanbanMenu">
+        📋 Kanban Board
+    </li>
+
+    <li id="calendarMenu">
+        📅 Calendar
+    </li>
+
+    <li id="analyticsMenu">
+        📈 Analytics
+    </li>
+
+    <li id="teamMenu">
+        👥 Team
+    </li>
+
+    <li id="settingsMenu">
+        ⚙ Settings
+    </li>
+
+</ul>
+
+        <button id="themeToggle">
+            🌙 Dark Mode
+        </button>
+
+    </aside>
+
+    <!-- Main -->
+
+    <main class="main-content">
+
+        <!-- Header -->
+
+        <header class="header">
+
+            <div>
+
+                <h1>Project Management Dashboard</h1>
+
+                <p>
+                    Manage Projects, Tasks & Productivity
+                </p>
+
+            </div>
+
+            <div class="header-actions">
+
+                <button id="addProjectBtn">
+                    + Project
+                </button>
+
+                <button id="addTaskBtn">
+                    + Task
+                </button>
+
+            </div>
+
+        </header>
+
+        <!-- Dashboard Cards -->
+
+        <section class="dashboard">
+
+            <div class="card">
+
+                <h3>Total Projects</h3>
+
+                <h2 id="totalProjects">
+                    0
+                </h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Total Tasks</h3>
+
+                <h2 id="totalTasks">
+                    0
+                </h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Completed</h3>
+
+                <h2 id="completedTasks">
+                    0
+                </h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Pending</h3>
+
+                <h2 id="pendingTasks">
+                    0
+                </h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Overdue</h3>
+
+                <h2 id="overdueTasks">
+                    0
+                </h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Streak</h3>
+
+                <h2 id="streak">
+                    0 🔥
+                </h2>
+
+            </div>
+
+        </section>
+
+        <!-- Search & Filters -->
+
+        <section class="filters">
+
+            <input
+                type="text"
+                id="searchTask"
+                placeholder="Search Task..."
+            >
+
+            <select id="priorityFilter">
+
+                <option value="">
+                    All Priorities
+                </option>
+
+                <option value="Low">
+                    Low
+                </option>
+
+                <option value="Medium">
+                    Medium
+                </option>
+
+                <option value="High">
+                    High
+                </option>
+
+                <option value="Critical">
+                    Critical
+                </option>
+
+            </select>
+
+        </section>
+
+        <!-- Kanban Board -->
+
+        <!-- <section class="kanban-board"> -->
+
+        <section
+    class="kanban-board"
+    id="kanbanSection"
+>
+
+            <div class="column">
+
+                <h2>📌 To Do</h2>
+
+                <div
+                    id="todo"
+                    class="task-container"
+                ></div>
+
+            </div>
+
+            <div class="column">
+
+                <h2>⚡ In Progress</h2>
+
+                <div
+                    id="progress"
+                    class="task-container"
+                ></div>
+
+            </div>
+
+            <div class="column">
+
+                <h2>📝 Review</h2>
+
+                <div
+                    id="review"
+                    class="task-container"
+                ></div>
+
+            </div>
+
+            <div class="column">
+
+                <h2>✅ Done</h2>
+
+                <div
+                    id="done"
+                    class="task-container"
+                ></div>
+
+            </div>
+
+        </section>
+
+        <!-- Analytics -->
+
+        <!-- <section class="analytics"> -->
+        
+            <section
+    class="analytics"
+    id="analyticsSection"
+>
+
+            <div class="chart-card">
+
+                <h2>Task Status</h2>
+
+                <canvas id="taskChart"></canvas>
+
+            </div>
+
+            <div class="chart-card">
+
+                <h2>Priority Distribution</h2>
+
+                <canvas id="priorityChart"></canvas>
+
+            </div>
+
+        </section>
+
+        <section
+    class="calendar-section"
+    id="calendarSection"
+>
+
+    <h2>📅 Upcoming Deadlines</h2>
+
+    <div id="calendarTasks">
+
+    </div>
+
+</section>
+
+        <!-- Team Section -->
+
+        <!-- <section class="team-section"> -->
+
+        <section
+    class="team-section"
+    id="teamSection"
+>
+
+            <h2>👥 Team Members</h2>
+
+            <button id="addMemberBtn">
+                Add Member
+            </button>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Email</th>
+
+                        <th>Role</th>
+
+                        <th>Tasks</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="teamTable">
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+        <section
+    class="settings-section"
+    id="settingsSection"
+>
+
+    <h2>⚙ Settings</h2>
+
+    <!-- <div class="settings-card">
+
+        <button id="clearAllData">
+            🗑 Delete All Data
+        </button>
+
+    </div> -->
+
+
+    <div class="settings-card">
+
+    <button id="backupData">
+        📥 Backup Data
+    </button>
+
+    <button id="restoreData">
+        📤 Restore Data
+    </button>
+
+    <input
+        type="file"
+        id="restoreFile"
+        hidden
+        accept=".json"
+    >
+
+    <button id="clearAllData">
+        🗑 Delete All Data
+    </button>
+
+</div>
+
+</section>
+
+        <!-- Activity Logs -->
+
+        <section class="activity-section">
+
+            <h2>📜 Activity Logs</h2>
+
+            <ul id="activityLogs">
+
+            </ul>
+
+        </section>
+
+        <!-- Export Buttons -->
+
+        <section class="export-section">
+
+            <button id="exportCsv">
+                📤 Export CSV
+            </button>
+
+            <button id="exportPdf">
+                📄 Export PDF
+            </button>
+
+        </section>
+
+    </main>
+
+    <!-- Project Modal -->
+
+    <div
+        class="modal"
+        id="projectModal"
+    >
+
+        <div class="modal-content">
+
+            <h2>Create Project</h2>
+
+            <input
+                type="text"
+                id="projectName"
+                placeholder="Project Name"
+            >
+
+            <textarea
+                id="projectDescription"
+                placeholder="Description"
+            ></textarea>
+
+            <input
+                type="date"
+                id="projectDeadline"
+            >
+
+            <select id="projectPriority">
+
+                <option>
+                    Low
+                </option>
+
+                <option>
+                    Medium
+                </option>
+
+                <option>
+                    High
+                </option>
+
+                <option>
+                    Critical
+                </option>
+
+            </select>
+
+            <button id="saveProject">
+                Save Project
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Task Modal -->
+
+    <div
+        class="modal"
+        id="taskModal"
+    >
+
+        <div class="modal-content">
+
+            <h2>Create Task</h2>
+
+            <input
+                type="text"
+                id="taskTitle"
+                placeholder="Task Title"
+            >
+
+            <textarea
+                id="taskDescription"
+                placeholder="Task Description"
+            ></textarea>
+
+            <input
+                type="date"
+                id="taskDueDate"
+            >
+
+            <select id="taskPriority">
+
+                <option>
+                    Low
+                </option>
+
+                <option>
+                    Medium
+                </option>
+
+                <option>
+                    High
+                </option>
+
+                <option>
+                    Critical
+                </option>
+
+            </select>
+
+            <select id="assignMember">
+
+    <option value="">
+        Assign Member
+    </option>
+
+</select>
+
+            <input
+                type="text"
+                id="taskTags"
+                placeholder="Tags"
+            >
+
+            <button id="saveTask">
+                Save Task
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Team Modal -->
+
+    <div
+        class="modal"
+        id="memberModal"
+    >
+
+        <div class="modal-content">
+
+            <h2>Add Team Member</h2>
+
+            <input
+                type="text"
+                id="memberName"
+                placeholder="Name"
+            >
+
+            <input
+                type="email"
+                id="memberEmail"
+                placeholder="Email"
+            >
+
+            <input
+                type="text"
+                id="memberRole"
+                placeholder="Role"
+            >
+
+            <button id="saveMember">
+                Save Member
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Toast -->
+
+    <div id="toast"></div>
+
+    <script src="pmt.js"></script>
+
+</body>
+</html>
